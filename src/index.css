@@ -113,7 +113,7 @@ text-align: center;
 .main-area-container{
   width: 80%;
   background-color: #fff;
-  height: 100vh;
+ 
   border-radius: 20px;
   padding-left: 60px;
   padding-right: 60px;
@@ -121,10 +121,69 @@ text-align: center;
 }
 .sidenav-container{
   width: 20%;
-  
+ 
+}
+.sidenav{
+  width: inherit;
+  position: fixed;
+  left: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.logo img{
+  width: 180px;
+  height: 100px;
+}
+.profilename{
+  margin-bottom: 0;
+}
+.profileid{
+  margin-top: 5px;
+  color: darkgray;
+}
+.stats{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.stat{
+width: 70px;
+height: 70px;
+text-align: center;
+
+}
+.center{
+  border-left: 1px solid darkgray;
+border-right: 1px solid darkgray;
+padding: 0 5px 0 5px;
+}
+.key{
+  margin-top: 5px;
+  color: darkgray;
+  font-size: 14px;
+}
+.val{
+  font-weight: bold;
+  margin-bottom:0 ;
+}
+.personal-profile{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .input-container{
   width: 80%;
+}
+.navlink{
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: black;
+}
+.active{
+  color: palevioletred;
 }
 .search{
   width: 300px;
@@ -209,8 +268,6 @@ font-size: 16px;
 }
 .vertical-carousel{
   width: 70%;
- 
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -224,13 +281,14 @@ font-size: 16px;
   background-color: grey;
   margin-top: 20px;
   flex-shrink: 0;
-scroll-snap-align: center;
+scroll-snap-align: start;
+scroll-snap-stop: always;
 text-align: center;
 }
 .vertical-carousel > div{
-  margin: 5px;
+  /* margin: 5px;
   scroll-snap-align: center;
-  scroll-snap-stop: always;
+  scroll-snap-stop: always; */
  
 }
 .posts img{
