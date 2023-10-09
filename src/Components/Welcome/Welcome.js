@@ -61,7 +61,7 @@ export default function Welcome() {
         <div className="posts">1</div>
         <div className="posts">1</div>
       </div>
-      <div className="follow-recommend">f</div>
+      <div className="follow-recommend">follow</div>
     </div>
   );
 }

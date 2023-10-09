@@ -113,22 +113,29 @@ text-align: center;
 .main-area-container{
   width: 80%;
   background-color: #fff;
- 
-  border-radius: 20px;
+  transition: all 1000ms;
+ height: auto;
+  border-top-left-radius: 20px;
+
   padding-left: 60px;
   padding-right: 60px;
   box-sizing: border-box;
 }
 .sidenav-container{
   width: 20%;
+  overflow: hidden;
+  transition: 1000ms all;
  
 }
 .sidenav{
   width: inherit;
   position: fixed;
   left: 0;
+  height: 100vh;
   padding: 20px;
   box-sizing: border-box;
+  overflow: hidden;
+  background-color: #efefef;
 }
 .logo img{
   width: 180px;
@@ -136,6 +143,7 @@ text-align: center;
 }
 .profilename{
   margin-bottom: 0;
+  font-size: 18px;
 }
 .profileid{
   margin-top: 5px;
@@ -178,9 +186,37 @@ padding: 0 5px 0 5px;
 .navlink{
   display: block;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   text-decoration: none;
   color: black;
+  padding: 10px 20px 0 20px;
+  cursor: pointer;
+}
+.logout{
+  color: black;
+  padding: 10px 20px 0 20px;
+  cursor: pointer;
+}
+.minimise{
+  display: flex;
+  align-items: center;
+}
+.minimise hr {
+  width: 90%;
+  height: 1px;
+}
+.minimise span{
+  width: 28px;
+  height: 25px;
+  background-color: #fff;
+  margin-left: 20px;
+  border-radius: 50%;
+  position: absolute;
+  right: -14px;
+  padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
 }
 .active{
   color: palevioletred;
@@ -301,5 +337,26 @@ text-align: center;
 .follow-recommend{
   width: 25%;
   height: 200px;
-  background-color: yellow;
+  /* background-color: yellow; */
+}
+.feedbody{
+  display: flex;
+ 
+  
+  align-items: start;
+  gap:10px;
+}
+.column1{
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+align-items: center;
+}
+.column1 img {
+  width: -webkit-fill-available;
+  aspect-ratio: auto;
+}
+.column1 video {
+  width: -webkit-fill-available;
+  aspect-ratio: auto;
 }
