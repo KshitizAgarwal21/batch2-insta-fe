@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/pngegg.png";
-export default function Sidenav() {
-  const [toggle, setToggle] = useState(false);
+export default function Sidenav(props) {
+  const [toggle, setToggle] = useState(true);
+
+  const { isExpanded, setIsExpanded } = props.data;
   const minimise = () => {
     setToggle(!toggle);
+  };
+
+  useEffect(() => {
     if (!toggle) {
       document.getElementById("dynamic-sidenav").style.width = "10%";
       document.getElementsByClassName("profilename")[0].style.fontSize = "14px";
@@ -20,7 +25,7 @@ export default function Sidenav() {
       document.getElementsByClassName("main-area-container")[0].style.width =
         "80%";
     }
-  };
+  }, [toggle]);
   return (
     <div className="sidenav">
       <div className="logo">
@@ -52,16 +57,38 @@ export default function Sidenav() {
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "navlink active" : "navlink"
           }
+          onClick={() => {
+            setIsExpanded(false);
+            setToggle(true);
+          }}
         >
           Feed
         </NavLink>
-        <NavLink to={"/explore"} className="navlink">
+        <NavLink
+          to={"/explore"}
+          className="navlink"
+          onClick={() => {
+            setIsExpanded(false);
+            setToggle(true);
+          }}
+        >
           Explore
         </NavLink>
-        <NavLink to={"/notifications"} className="navlink">
+        <NavLink
+          to={"/notifications"}
+          className="navlink"
+          onClick={() => {
+            setIsExpanded(true);
+            setToggle(false);
+          }}
+        >
           Notifications
         </NavLink>
-        <NavLink to={"/chat"} className="navlink">
+        <NavLink
+          to={"/chat"}
+          className="navlink"
+          onClick={() => setIsExpanded(true)}
+        >
           Messages
         </NavLink>
         <NavLink to={"/stats"} className="navlink">
@@ -72,7 +99,7 @@ export default function Sidenav() {
         </NavLink>
         <div className="minimise" onClick={minimise}>
           <hr />
-          <span>{toggle ? <>{">"}</> : <>{"<"}</>}</span>
+          <span>{!toggle ? <>{">"}</> : <>{"<"}</>}</span>
         </div>
 
         <p className="logout">Logout</p>
