@@ -8,6 +8,7 @@ import Welcome from "./Components/Welcome/Welcome";
 import Explore from "./Components/Explore/Explore";
 import Notifications from "./Components/Notifications/Notifications";
 import { useState } from "react";
+import ChatWindow from "./Components/Chat/ChatWindow";
 
 function App() {
   const [isHome, setIsHome] = useState(true);
@@ -23,6 +24,7 @@ function App() {
             >
               <Route path="/feed" element={<Welcome />} />
               <Route path="/explore" element={<Explore />} />
+              <Route path="/chat/:id" element={<ChatWindow />} />
             </Route>
             <Route path="/notifications" element={<Home />} />
             <Route path="/chat" element={<Home />} />

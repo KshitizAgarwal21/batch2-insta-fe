@@ -3,7 +3,8 @@ import img1 from "../../assets/Image.svg";
 import mov from "../../assets/sample.mov";
 import bulboff from "../../assets/bulboff.jpeg";
 import bulbon from "../../assets/bulbon.jpeg";
-export default function Explore() {
+import HOC from "../HOC";
+function Explore() {
   return (
     <div>
       <div className="story-heads">
@@ -78,3 +79,4 @@ export default function Explore() {
     </div>
   );
 }
+export default Explore;

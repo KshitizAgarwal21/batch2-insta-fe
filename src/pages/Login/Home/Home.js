@@ -10,6 +10,7 @@ import Chat from "../../../Components/Chat/Chat";
 export default function Home(props) {
   const location = useLocation();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [tab, setTab] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     navigate("/feed");
@@ -18,27 +19,25 @@ export default function Home(props) {
   return (
     <div style={{ display: "flex", background: "#efefef" }}>
       <div className="sidenav-container" id="dynamic-sidenav">
-        <Sidenav data={{ isExpanded, setIsExpanded }} />
+        <Sidenav data={{ isExpanded, setIsExpanded, tab, setTab }} />
         <div
           className="dynamic-container"
           style={{ width: isExpanded ? "380px" : "0" }}
         >
-          {location.pathname == "/notifications" && (
+          {tab == "notifications" && (
             <>
               <Notifications />
             </>
           )}
-          {location.pathname == "/chat" && (
+          {tab == "chat" && (
             <>
-              <Chat />
+              <Chat data={{ isExpanded, setIsExpanded }} />
             </>
           )}
           {/* <Notifications /> */}
         </div>
       </div>
       <div className="main-area-container">
-        <Header />
-        {<Stories />}
         {/* <Feed /> */}
         <Outlet />
       </div>

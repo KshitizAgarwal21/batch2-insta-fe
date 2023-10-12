@@ -4,10 +4,11 @@ import logo from "../../assets/pngegg.png";
 export default function Sidenav(props) {
   const [toggle, setToggle] = useState(true);
 
-  const { isExpanded, setIsExpanded } = props.data;
+  const { isExpanded, setIsExpanded, setTab, tab } = props.data;
   const minimise = () => {
     setToggle(!toggle);
   };
+  const [activeClass, setActiveClass] = useState("navlink active");
 
   useEffect(() => {
     if (!toggle) {
@@ -55,42 +56,56 @@ export default function Sidenav(props) {
         <NavLink
           to={"/feed"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "navlink active" : "navlink"
+            isPending ? "pending" : isActive ? activeClass : "navlink"
           }
           onClick={() => {
             setIsExpanded(false);
             setToggle(true);
+            setActiveClass("navlink active");
+            setTab("");
           }}
         >
           Feed
         </NavLink>
         <NavLink
           to={"/explore"}
-          className="navlink"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? activeClass : "navlink"
+          }
           onClick={() => {
             setIsExpanded(false);
+            setTab("");
             setToggle(true);
+            setActiveClass("navlink active");
           }}
         >
           Explore
         </NavLink>
-        <NavLink
-          to={"/notifications"}
+        <p
+          // to={"/notifications"}
           className="navlink"
+          style={{ color: tab == "notifications" ? "palevioletred" : "black" }}
           onClick={() => {
             setIsExpanded(true);
             setToggle(false);
+            setTab("notifications");
+            setActiveClass("navlink");
           }}
         >
           Notifications
-        </NavLink>
-        <NavLink
-          to={"/chat"}
+        </p>
+        <p
+          // to={"/chat"}
           className="navlink"
-          onClick={() => setIsExpanded(true)}
+          style={{ color: tab == "chat" ? "palevioletred" : "black" }}
+          onClick={() => {
+            setIsExpanded(true);
+            setTab("chat");
+            setActiveClass("navlink");
+          }}
         >
           Messages
-        </NavLink>
+        </p>
         <NavLink to={"/stats"} className="navlink">
           Stats
         </NavLink>

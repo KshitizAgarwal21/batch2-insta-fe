@@ -3,7 +3,8 @@ import user from "../../assets/Your Image 1.svg";
 import bulboff from "../../assets/bulboff.jpeg";
 import bulbon from "../../assets/bulbon.jpeg";
 import reel from "../../assets/sample.mov";
-export default function Welcome() {
+import HOC from "../HOC";
+function Welcome() {
   function playPauseVideo() {
     let videos = document.querySelectorAll("video");
     videos.forEach((video) => {
@@ -65,3 +66,5 @@ export default function Welcome() {
     </div>
   );
 }
+
+export default HOC(Welcome);
