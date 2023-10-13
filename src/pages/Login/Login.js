@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import img1 from "../../assets/screenshot1-2x.png";
 import img2 from "../../assets/screenshot2-2x.png";
 import img3 from "../../assets/screenshot3-2x.png";
@@ -12,12 +13,27 @@ export default function Login() {
 
   const [index, setIndex] = useState(0);
   const [liveimg, setLiveImg] = useState(arr[0]);
+  const [formData, setFormData] = useState({});
   useEffect(() => {
     if (localStorage.getItem("token")) {
       naviagte("/");
     }
   }, []);
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
+  const login = async () => {
+    const resp = await axios.post(
+      "http://localhost:8080/auth/signin",
+      formData
+    );
+
+    if (resp.status == 200) {
+      localStorage.setItem("token", resp.data.token);
+      naviagte("/");
+    }
+  };
   useEffect(() => {
     setInterval(() => {
       setIndex((prev) => {
@@ -46,13 +62,19 @@ export default function Login() {
             type="text"
             className="custom-input"
             placeholder="Phone or Email"
+            name="username"
+            onChange={(e) => handleChange(e)}
           ></input>
           <input
             type="password"
             className="custom-input"
             placeholder="Password"
+            name="password"
+            onChange={(e) => handleChange(e)}
           ></input>
-          <button className="login">Log in</button>
+          <button className="login" onClick={login}>
+            Log in
+          </button>
 
           <div className="breaker">
             <hr className="breaks"></hr>

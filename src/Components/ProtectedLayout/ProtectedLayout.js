@@ -5,8 +5,8 @@ export default function ProtectedLayout() {
   const [isAuth, setIsAuth] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsAuth(true);
+    if (!localStorage.getItem("token")) {
+      setIsAuth(false);
     }
   }, []);
 

@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/pngegg.png";
+
+import { isExpired, decodeToken } from "react-jwt";
 export default function Sidenav(props) {
   const [toggle, setToggle] = useState(true);
-
+  const [userData, setUserData] = useState();
   const { isExpanded, setIsExpanded, setTab, tab } = props.data;
   const minimise = () => {
     setToggle(!toggle);
   };
   const [activeClass, setActiveClass] = useState("navlink active");
+  useEffect(() => {
+    setUserData(decodeToken(localStorage.getItem("token")));
+  }, []);
 
   useEffect(() => {
     if (!toggle) {
@@ -35,19 +40,21 @@ export default function Sidenav(props) {
 
       <div className="personal-profile">
         <div className="story"></div>
-        <h3 className="profilename">Kate Lingard</h3>
-        <p className="profileid">@Klingard123</p>
+        <h3 className="profilename">
+          {userData?.profile?.first_name} {userData?.profile?.last_name}
+        </h3>
+        <p className="profileid">@{userData?.username}</p>
         <div className="stats" id="stats">
           <div className="stat">
-            <p className="val">46</p>
+            <p className="val">{userData?.posts.length}</p>
             <p className="key">Posts</p>
           </div>
           <div className="stat center">
-            <p className="val">2.8k</p>
+            <p className="val">{userData?.followers.length}</p>
             <p className="key">Followers</p>
           </div>
           <div className="stat">
-            <p className="val">56</p>
+            <p className="val">{userData?.following.length}</p>
             <p className="key">Following</p>
           </div>
         </div>
@@ -117,7 +124,15 @@ export default function Sidenav(props) {
           <span>{!toggle ? <>{">"}</> : <>{"<"}</>}</span>
         </div>
 
-        <p className="logout">Logout</p>
+        <p
+          className="logout"
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.reload();
+          }}
+        >
+          Logout
+        </p>
       </div>
     </div>
   );
