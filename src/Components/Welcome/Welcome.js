@@ -3,8 +3,18 @@ import user from "../../assets/Your Image 1.svg";
 import bulboff from "../../assets/bulboff.jpeg";
 import bulbon from "../../assets/bulbon.jpeg";
 import reel from "../../assets/sample.mov";
+import { socket } from "../../socket";
 import HOC from "../HOC";
 function Welcome() {
+  const sendFollowRequest = () => {
+    const id = "652812f0bf41d828c0b78c60";
+
+    const bothIds = {
+      toFollow: id,
+      whoWantsToFollow: localStorage.getItem("userid"),
+    };
+    socket.emit("follow", bothIds);
+  };
   function playPauseVideo() {
     let videos = document.querySelectorAll("video");
     videos.forEach((video) => {
@@ -62,7 +72,9 @@ function Welcome() {
         <div className="posts">1</div>
         <div className="posts">1</div>
       </div>
-      <div className="follow-recommend">follow</div>
+      <div className="follow-recommend">
+        <button onClick={sendFollowRequest}>Follow</button>
+      </div>
     </div>
   );
 }
