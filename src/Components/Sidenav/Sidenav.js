@@ -13,6 +13,8 @@ export default function Sidenav(props) {
   const [activeClass, setActiveClass] = useState("navlink active");
   useEffect(() => {
     setUserData(decodeToken(localStorage.getItem("token")));
+    const { userid } = decodeToken(localStorage.getItem("token"));
+    localStorage.setItem("userid", userid);
   }, []);
 
   useEffect(() => {

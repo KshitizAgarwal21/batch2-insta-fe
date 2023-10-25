@@ -140,6 +140,7 @@ text-align: center;
     left: 120px;
     overflow: hidden;
     transition: all 1000ms;
+    z-index: 12233;
 }
 .not-ul{
 list-style: none;

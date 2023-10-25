@@ -26,7 +26,7 @@ export default function Home(props) {
         >
           {tab == "notifications" && (
             <>
-              <Notifications />
+              <Notifications notifications={props.notifications} />
             </>
           )}
           {tab == "chat" && (

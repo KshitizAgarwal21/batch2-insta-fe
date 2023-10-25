@@ -18,19 +18,20 @@ function App() {
   const [isHome, setIsHome] = useState(true);
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [fooEvents, setFooEvents] = useState([]);
-
+  const [notifications, setNotifications] = useState([]);
   async function getuserDetails(id) {
     const getUser = await axios.post(
       "http://localhost:8080/auth/getuserDetails",
       { id: id },
       {
         headers: {
-          Authorization: "652812f0bf41d828c0b78c60",
+          Authorization: localStorage.getItem("userid"),
         },
       }
     );
     return getUser.data;
   }
+
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
@@ -47,12 +48,26 @@ function App() {
     async function notify(msg) {
       if (msg.followReq == true) {
         const name = await getuserDetails(msg.whoWishedToFollow);
-        alert(
+        setNotifications((prev) => [
+          ...prev,
           name.first_name +
             " " +
             name.last_name +
-            " has requested to follow you"
-        );
+            " " +
+            "has requested to follow you",
+        ]);
+        // alert(
+        //   name.first_name +
+        //     " " +
+        //     name.last_name +
+        //     " has requested to follow you"
+        // );
+      } else if (msg.liked) {
+        const name = await getuserDetails(msg.whoLiked);
+        setNotifications((prev) => [
+          ...prev,
+          name.first_name + " " + name.last_name + " " + "has liked your post",
+        ]);
       }
     }
     socket.on("notify", notify);
@@ -74,7 +89,13 @@ function App() {
           <Route path="/" element={<ProtectedLayout />}>
             <Route
               path="/"
-              element={<Home isHome={isHome} setIsHome={setIsHome} />}
+              element={
+                <Home
+                  isHome={isHome}
+                  setIsHome={setIsHome}
+                  notifications={notifications}
+                />
+              }
             >
               <Route path="/feed" element={<Welcome />} />
               <Route path="/explore" element={<Explore />} />

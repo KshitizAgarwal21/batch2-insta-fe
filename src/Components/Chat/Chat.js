@@ -8,7 +8,7 @@ export default function Chat(props) {
   const getChat = async () => {
     const resp = await axios.get("http://localhost:8080/chat/chatlist", {
       headers: {
-        Authorization: "652812f0bf41d828c0b78c60",
+        Authorization: localStorage.getItem("userid"),
       },
     });
     const arr = resp.data;
@@ -38,7 +38,7 @@ export default function Chat(props) {
         { id: lasttexted },
         {
           headers: {
-            Authorization: "652812f0bf41d828c0b78c60",
+            Authorization: localStorage.getItem("userid"),
           },
         }
       );
