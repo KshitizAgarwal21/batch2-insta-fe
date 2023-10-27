@@ -5,7 +5,10 @@ import bulbon from "../../assets/bulbon.jpeg";
 import reel from "../../assets/sample.mov";
 import { socket } from "../../socket";
 import HOC from "../HOC";
+import axios from "axios";
 function Welcome() {
+  const [posts, setPosts] = useState([]);
+  const [showhide, setshowhide] = useState(false);
   const sendFollowRequest = () => {
     const id = "652812f0bf41d828c0b78c60";
 
@@ -14,6 +17,23 @@ function Welcome() {
       whoWantsToFollow: localStorage.getItem("userid"),
     };
     socket.emit("follow", bothIds);
+  };
+
+  async function getPosts() {
+    const postsresp = await axios.post(
+      "http://localhost:8080/posts/getposts",
+      {},
+      {
+        headers: {
+          Authorization: localStorage.getItem("userid"),
+        },
+      }
+    );
+    console.log(postsresp.data);
+    setPosts(postsresp.data);
+  }
+  const togglecomment = () => {
+    setshowhide((prev) => !prev);
   };
   function playPauseVideo() {
     let videos = document.querySelectorAll("video");
@@ -60,11 +80,13 @@ function Welcome() {
     setCaption(await res.json().translatedText);
   };
   useEffect(() => {
+    getPosts();
     playPauseVideo();
   }, []);
   const like = (id) => {
+    console.log(id);
     const obj = {
-      personWhosPost: id,
+      personWhosPost: id.user_id,
       personWhoLiked: localStorage.getItem("userid"),
     };
     socket.emit("like", obj);
@@ -72,17 +94,36 @@ function Welcome() {
   return (
     <div className="welcome-conatiner">
       <div className="vertical-carousel">
-        <div className="posts">
-          <img src={user} loading="lazy" />
-          <button
-            onClick={() => {
-              like("652812f0bf41d828c0b78c60");
-            }}
-          >
-            Like
-          </button>
-          <p>{caption}</p> <span onClick={translate}>Translate</span>
-        </div>
+        {posts?.map((elem) => {
+          return (
+            <>
+              {" "}
+              <div className="posts">
+                <img src={elem.media} loading="lazy" />
+                <button
+                  onClick={() => {
+                    like(elem);
+                  }}
+                >
+                  Like
+                </button>
+                <p>{elem.caption}</p> <span onClick={translate}>Translate</span>
+                <p>♥ {elem.likes.length}</p>
+                <p onClick={togglecomment}>💬 {elem.comments.length}</p>
+                <span style={{ display: showhide ? "block" : "none" }}>
+                  {elem.comments.map((ele) => {
+                    return (
+                      <>
+                        {ele.user_id} {ele.content}
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </>
+          );
+        })}
+        {/* 
         <div className="posts">
           <img src={bulboff} loading="lazy" />
         </div>
@@ -102,7 +143,7 @@ function Welcome() {
         </div>
         <div className="posts">1</div>
         <div className="posts">1</div>
-        <div className="posts">1</div>
+        <div className="posts">1</div> */}
       </div>
       <div className="follow-recommend">
         <button onClick={sendFollowRequest}>Follow</button>

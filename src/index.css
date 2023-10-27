@@ -344,12 +344,12 @@ font-size: 16px;
 .posts{
   width: 80%;
   height: auto;
-  background-color: grey;
+  
   margin-top: 20px;
   flex-shrink: 0;
 scroll-snap-align: start;
 scroll-snap-stop: always;
-text-align: center;
+text-align: left;
 }
 .vertical-carousel > div{
   /* margin: 5px;
