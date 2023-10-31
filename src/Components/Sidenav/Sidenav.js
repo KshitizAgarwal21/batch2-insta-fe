@@ -41,7 +41,9 @@ export default function Sidenav(props) {
       </div>
 
       <div className="personal-profile">
-        <div className="story"></div>
+        <div className="dp">
+          <img src={userData?.profile.dp_url}></img>
+        </div>
         <h3 className="profilename">
           {userData?.profile?.first_name} {userData?.profile?.last_name}
         </h3>

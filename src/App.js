@@ -13,6 +13,9 @@ import Notifications from "./Components/Notifications/Notifications";
 import { useState } from "react";
 import ChatWindow from "./Components/Chat/ChatWindow";
 import Follow from "./pages/Follow";
+import AddPost from "./Components/AddPost";
+import Register from "./pages/Login/Register";
+import ForgotPassword from "./pages/Login/ForgotPassword";
 
 function App() {
   const [isHome, setIsHome] = useState(true);
@@ -86,6 +89,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/reset" element={<ForgotPassword />}></Route>
+          <Route path="/register" element={<Register />}></Route>
           <Route path="/" element={<ProtectedLayout />}>
             <Route
               path="/"
@@ -105,6 +110,7 @@ function App() {
             <Route path="/chat" element={<Home />} />
 
             <Route path="/story/:id" element={<Story />} />
+            <Route path="/addpost/" element={<AddPost />} />
           </Route>
         </Routes>
       </BrowserRouter>

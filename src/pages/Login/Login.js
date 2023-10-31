@@ -82,7 +82,14 @@ export default function Login() {
             <hr className="breaks"></hr>
           </div>
 
-          <p className="forgot">Forgot Password?</p>
+          <p
+            className="forgot"
+            onClick={() => {
+              naviagte("/reset");
+            }}
+          >
+            Forgot Password?
+          </p>
         </div>
         <div className="signup-container">
           Don't have an account?{" "}

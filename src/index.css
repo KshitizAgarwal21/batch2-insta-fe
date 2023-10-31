@@ -300,6 +300,7 @@ font-size: 16px;
   overflow: auto;
   width: 100%;
 }
+
 .story{
   width: 80px;
   height: 80px;
@@ -310,6 +311,22 @@ font-size: 16px;
   border: 1px solid pink;
   margin-left: 10px;
   flex-shrink: 0;
+}
+.dp{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  
+  display: flex;
+  justify-content: center;
+  border: 1px solid pink;
+  margin-left: 10px;
+
+}
+.dp img{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 .addself{
  
@@ -350,6 +367,27 @@ font-size: 16px;
 scroll-snap-align: start;
 scroll-snap-stop: always;
 text-align: left;
+}
+.formconatiner{
+  width: 50%;
+  height: 20vh;
+  margin: 15% auto;
+  border: 1px solid black;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.formconatiner input {
+  
+}
+.register{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+  height: 100vh;
 }
 .vertical-carousel > div{
   /* margin: 5px;
