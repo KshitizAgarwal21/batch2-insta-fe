@@ -16,7 +16,7 @@ export default function Login() {
   const [formData, setFormData] = useState({});
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      naviagte("/");
+      naviagte("/home");
     }
   }, []);
   const handleChange = (e) => {
@@ -31,7 +31,7 @@ export default function Login() {
 
     if (resp.status == 200) {
       localStorage.setItem("token", resp.data.token);
-      naviagte("/");
+      naviagte("/home");
     }
   };
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function Login() {
         <div className="signup-container">
           Don't have an account?{" "}
           <span>
-            <a href="#">Sign up</a>
+            <a href="http://localhost:3000/register">Sign up</a>
           </span>
         </div>
         <p style={{ textAlign: "center" }}>Get the app.</p>

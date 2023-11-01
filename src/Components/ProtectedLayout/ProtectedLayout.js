@@ -10,5 +10,5 @@ export default function ProtectedLayout() {
     }
   }, []);
 
-  return <div>{isAuth ? <Outlet /> : <Navigate to={"/login"}></Navigate>}</div>;
+  return <div>{isAuth ? <Outlet /> : <Navigate to="/login"></Navigate>}</div>;
 }

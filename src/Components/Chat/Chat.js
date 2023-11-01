@@ -76,7 +76,10 @@ export default function Chat(props) {
       {conversation?.map((elem) => {
         return (
           <>
-            <Link to={`/chat/${elem._id}`} onClick={() => setIsExpanded(false)}>
+            <Link
+              to={`/home/chat/${elem._id}`}
+              onClick={() => setIsExpanded(false)}
+            >
               <div className="recent-chat">
                 {elem.author}: {elem.lastMessage}{" "}
               </div>

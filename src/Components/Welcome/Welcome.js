@@ -9,8 +9,10 @@ import axios from "axios";
 function Welcome() {
   const [posts, setPosts] = useState([]);
   const [showhide, setshowhide] = useState(false);
-  const sendFollowRequest = () => {
-    const id = "652812f0bf41d828c0b78c60";
+  const [recommend, setRecommend] = useState([]);
+  const sendFollowRequest = (e) => {
+    console.log(e);
+    const id = e;
 
     const bothIds = {
       toFollow: id,
@@ -18,7 +20,19 @@ function Welcome() {
     };
     socket.emit("follow", bothIds);
   };
+  async function getfollowrecommend() {
+    const postsresp = await axios.post(
+      "http://localhost:8080/connections/followrecommend",
+      {},
+      {
+        headers: {
+          Authorization: localStorage.getItem("userid"),
+        },
+      }
+    );
 
+    setRecommend(postsresp.data);
+  }
   async function getPosts() {
     const postsresp = await axios.post(
       "http://localhost:8080/posts/getposts",
@@ -81,6 +95,7 @@ function Welcome() {
   };
   useEffect(() => {
     getPosts();
+    getfollowrecommend();
     playPauseVideo();
   }, []);
   const like = (id) => {
@@ -146,7 +161,17 @@ function Welcome() {
         <div className="posts">1</div> */}
       </div>
       <div className="follow-recommend">
-        <button onClick={sendFollowRequest}>Follow</button>
+        {recommend?.map((elem) => {
+          return (
+            <>
+              {" "}
+              <div className="profiles">
+                <p>{elem}</p>
+                <button onClick={() => sendFollowRequest(elem)}>Follow</button>
+              </div>
+            </>
+          );
+        })}
       </div>
     </div>
   );

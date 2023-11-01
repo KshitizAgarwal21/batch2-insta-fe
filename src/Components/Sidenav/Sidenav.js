@@ -65,7 +65,7 @@ export default function Sidenav(props) {
       </div>
       <div className="menu-items">
         <NavLink
-          to={"/feed"}
+          to={"/home/feed"}
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? activeClass : "navlink"
           }
@@ -79,7 +79,7 @@ export default function Sidenav(props) {
           Feed
         </NavLink>
         <NavLink
-          to={"/explore"}
+          to={"/home/explore"}
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? activeClass : "navlink"
           }
@@ -117,10 +117,10 @@ export default function Sidenav(props) {
         >
           Messages
         </p>
-        <NavLink to={"/stats"} className="navlink">
+        <NavLink to={"/home/stats"} className="navlink">
           Stats
         </NavLink>
-        <NavLink to={"/settings"} className="navlink">
+        <NavLink to={"/home/settings"} className="navlink">
           Settings
         </NavLink>
         <div className="minimise" onClick={minimise}>
@@ -132,7 +132,8 @@ export default function Sidenav(props) {
           className="logout"
           onClick={() => {
             localStorage.removeItem("token");
-            window.location.reload();
+            localStorage.removeItem("userid");
+            window.location.href = "http://localhost:3000/";
           }}
         >
           Logout

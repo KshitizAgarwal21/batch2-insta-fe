@@ -404,8 +404,19 @@ text-align: left;
 
 .follow-recommend{
   width: 25%;
-  height: 200px;
+ overflow: scroll;
+ height: 100vh;
+  display: flex;
+  flex-direction: column;
   /* background-color: yellow; */
+}
+.profiles{
+  width: 90%;
+  height: 200px;
+  background-color: yellow;
+  margin-top: 20px;
+  flex-shrink: 0;
+
 }
 .feedbody{
   display: flex;
