@@ -31,7 +31,7 @@ export default function Login() {
 
     if (resp.status == 200) {
       localStorage.setItem("token", resp.data.token);
-      naviagte("/home");
+      naviagte("/home/feed");
     }
   };
   useEffect(() => {

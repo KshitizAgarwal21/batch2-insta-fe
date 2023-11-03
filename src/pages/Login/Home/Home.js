@@ -13,6 +13,7 @@ export default function Home(props) {
   const [fooEvents, setFooEvents] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [tab, setTab] = useState("");
+  const [refresh, setRefresh] = useState(true);
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   async function getuserDetails(id) {
@@ -48,17 +49,37 @@ export default function Home(props) {
       function onFooEvent(value) {
         setFooEvents((previous) => [...previous, value]);
       }
+      async function alertops(msg) {
+        alert(msg);
 
+        if (msg == "follow request accepted" || msg == "new follower added") {
+          const resp = await axios.post(
+            "http://localhost:8080/auth/refresh",
+            {},
+            {
+              headers: { Authorization: localStorage.getItem("userid") },
+            }
+          );
+          localStorage.removeItem("token");
+          localStorage.setItem("token", resp.data);
+          setRefresh((prev) => !prev);
+        }
+      }
       async function notify(msg) {
         if (msg.followReq == true) {
           const name = await getuserDetails(msg.whoWishedToFollow);
           setNotifications((prev) => [
             ...prev,
-            name.first_name +
-              " " +
-              name.last_name +
-              " " +
-              "has requested to follow you",
+            {
+              followReq: true,
+              user: msg.whoWishedToFollow,
+              msg:
+                name.first_name +
+                " " +
+                name.last_name +
+                " " +
+                "has requested to follow you",
+            },
           ]);
           // alert(
           //   name.first_name +
@@ -68,16 +89,23 @@ export default function Home(props) {
           // );
         } else if (msg.liked) {
           const name = await getuserDetails(msg.whoLiked);
+          console.log(name);
           setNotifications((prev) => [
             ...prev,
-            name.first_name +
-              " " +
-              name.last_name +
-              " " +
-              "has liked your post",
+            {
+              like: true,
+              user: msg.whoLiked,
+              msg:
+                name.first_name +
+                " " +
+                name.last_name +
+                " " +
+                "has liked your post",
+            },
           ]);
         }
       }
+      socket.on("success-follow", alertops);
       socket.on("notify", notify);
       socket.on("connect", onConnect);
       socket.on("disconnect", onDisconnect);
@@ -94,7 +122,7 @@ export default function Home(props) {
     <div style={{ display: "flex", background: "#efefef" }}>
       <div className="sidenav-container" id="dynamic-sidenav">
         {localStorage.getItem("token")} &&{" "}
-        <Sidenav data={{ isExpanded, setIsExpanded, tab, setTab }} />
+        <Sidenav data={{ isExpanded, setIsExpanded, tab, setTab, refresh }} />
         <div
           className="dynamic-container"
           style={{ width: isExpanded ? "380px" : "0" }}

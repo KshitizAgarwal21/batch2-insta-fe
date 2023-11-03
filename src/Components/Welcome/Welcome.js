@@ -10,6 +10,7 @@ function Welcome() {
   const [posts, setPosts] = useState([]);
   const [showhide, setshowhide] = useState(false);
   const [recommend, setRecommend] = useState([]);
+
   const sendFollowRequest = (e) => {
     console.log(e);
     const id = e;
@@ -30,9 +31,21 @@ function Welcome() {
         },
       }
     );
+    const users = postsresp.data.map(async (ele) => {
+      return await axios.post("http://localhost:8080/auth/getuserdetails", {
+        id: ele,
+      });
+    });
 
-    setRecommend(postsresp.data);
+    Promise.all(users).then((resp) => {
+      resp.forEach((user, key) => {
+        user.id = postsresp.data[key];
+      });
+
+      setRecommend(resp);
+    });
   }
+
   async function getPosts() {
     const postsresp = await axios.post(
       "http://localhost:8080/posts/getposts",
@@ -44,10 +57,19 @@ function Welcome() {
       }
     );
     console.log(postsresp.data);
+
     setPosts(postsresp.data);
+    postsresp.data.forEach((elem) => {
+      timeElapsed(elem.createdAt);
+    });
   }
   const togglecomment = () => {
     setshowhide((prev) => !prev);
+  };
+
+  const timeElapsed = (t) => {
+    const timenow = new Date();
+    // to get the difference between current time and post time and show that
   };
   function playPauseVideo() {
     let videos = document.querySelectorAll("video");
@@ -100,12 +122,16 @@ function Welcome() {
   }, []);
   const like = (id) => {
     console.log(id);
-    const obj = {
-      personWhosPost: id.user_id,
-      personWhoLiked: localStorage.getItem("userid"),
+    const reqObj = {
+      whoPosted: id.user_id,
+      postid: id._id,
+      wholiked: localStorage.getItem("userid"),
     };
-    socket.emit("like", obj);
+
+    socket.emit("like", reqObj);
   };
+
+  console.log(recommend);
   return (
     <div className="welcome-conatiner">
       <div className="vertical-carousel">
@@ -134,6 +160,7 @@ function Welcome() {
                     );
                   })}
                 </span>
+                <p>{elem.createdAt}</p>
               </div>
             </>
           );
@@ -166,8 +193,11 @@ function Welcome() {
             <>
               {" "}
               <div className="profiles">
-                <p>{elem}</p>
-                <button onClick={() => sendFollowRequest(elem)}>Follow</button>
+                <img src={elem.data.dp_url} className="follow-dps"></img>
+                <p>{elem.data.first_name}</p>
+                <button onClick={() => sendFollowRequest(elem.id)}>
+                  Follow
+                </button>
               </div>
             </>
           );

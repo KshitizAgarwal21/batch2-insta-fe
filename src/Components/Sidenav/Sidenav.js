@@ -6,16 +6,18 @@ import { isExpired, decodeToken } from "react-jwt";
 export default function Sidenav(props) {
   const [toggle, setToggle] = useState(true);
   const [userData, setUserData] = useState();
-  const { isExpanded, setIsExpanded, setTab, tab } = props.data;
+  const { isExpanded, setIsExpanded, setTab, tab, refresh } = props.data;
   const minimise = () => {
     setToggle(!toggle);
   };
   const [activeClass, setActiveClass] = useState("navlink active");
   useEffect(() => {
-    setUserData(decodeToken(localStorage.getItem("token")));
-    const { userid } = decodeToken(localStorage.getItem("token"));
-    localStorage.setItem("userid", userid);
-  }, []);
+    if (localStorage.getItem("token")) {
+      setUserData(decodeToken(localStorage.getItem("token")));
+      const { userid } = decodeToken(localStorage.getItem("token"));
+      localStorage.setItem("userid", userid);
+    }
+  }, [refresh]);
 
   useEffect(() => {
     if (!toggle) {

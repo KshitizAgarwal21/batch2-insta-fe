@@ -16,6 +16,7 @@ import ChatWindow from "./Components/Chat/ChatWindow";
 import AddPost from "./Components/AddPost";
 import Register from "./pages/Login/Register";
 import ForgotPassword from "./pages/Login/ForgotPassword";
+import UserProfile from "./Components/UserProfile/UserProfile";
 
 function App() {
   const [isHome, setIsHome] = useState(true);
@@ -29,12 +30,13 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/" element={<ProtectedLayout />}>
             <Route
-              path="/home"
+              path="/"
               element={<Home isHome={isHome} setIsHome={setIsHome} />}
             >
               <Route path="/home/feed" element={<Welcome />} />
               <Route path="/home/explore" element={<Explore />} />
               <Route path="/home/chat/:id" element={<ChatWindow />} />
+              <Route path="/home/stats/" element={<UserProfile />} />
             </Route>
             <Route path="/notifications" element={<Home />} />
             <Route path="/chat" element={<Home />} />
