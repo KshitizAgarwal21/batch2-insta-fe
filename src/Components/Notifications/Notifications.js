@@ -16,7 +16,7 @@ export default function Notifications(props) {
   const acceptfollow = async (id) => {
     //socket event will be triggered
 
-    socket.emit("follow-accept", {
+    socket?.emit("follow-accept", {
       user: localStorage.getItem("userid"),
       id: id,
     });

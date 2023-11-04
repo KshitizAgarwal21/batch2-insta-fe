@@ -9,7 +9,7 @@ import { socket } from "../../../socket";
 import Chat from "../../../Components/Chat/Chat";
 export default function Home(props) {
   const location = useLocation();
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState();
   const [fooEvents, setFooEvents] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [tab, setTab] = useState("");
@@ -36,7 +36,6 @@ export default function Home(props) {
     }
   }, []);
   useEffect(() => {
-    console.log("hello");
     if (localStorage.getItem("token")) {
       function onConnect() {
         setIsConnected(true);
@@ -105,16 +104,16 @@ export default function Home(props) {
           ]);
         }
       }
-      socket.on("success-follow", alertops);
-      socket.on("notify", notify);
-      socket.on("connect", onConnect);
-      socket.on("disconnect", onDisconnect);
-      socket.on("foo", onFooEvent);
+      socket?.on("success-follow", alertops);
+      socket?.on("notify", notify);
+      socket?.on("connect", onConnect);
+      socket?.on("disconnect", onDisconnect);
+      socket?.on("foo", onFooEvent);
 
       return () => {
-        socket.off("connect", onConnect);
-        socket.off("disconnect", onDisconnect);
-        socket.off("foo", onFooEvent);
+        socket?.off("connect", onConnect);
+        socket?.off("disconnect", onDisconnect);
+        socket?.off("foo", onFooEvent);
       };
     }
   }, []);

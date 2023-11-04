@@ -3,7 +3,12 @@ import { io } from "socket.io-client";
 // "undefined" means the URL will be computed from the `window.location` object
 const URL = "http://localhost:8081";
 const id = localStorage.getItem("userid");
-export const socket = io(URL, { query: "id=" + id });
+let socket;
+if (localStorage.getItem("userid")) {
+  socket = io(URL, { query: "id=" + id });
+}
+
+export { socket };
 
 // Amit will try to follow Ram and Ram should get follow request in real time.
 

@@ -19,7 +19,7 @@ function Welcome() {
       toFollow: id,
       whoWantsToFollow: localStorage.getItem("userid"),
     };
-    socket.emit("follow", bothIds);
+    socket?.emit("follow", bothIds);
   };
   async function getfollowrecommend() {
     const postsresp = await axios.post(
@@ -56,20 +56,37 @@ function Welcome() {
         },
       }
     );
-    console.log(postsresp.data);
+    console.log(posts);
 
-    setPosts(postsresp.data);
-    postsresp.data.forEach((elem) => {
-      timeElapsed(elem.createdAt);
-    });
+    setPosts(
+      postsresp.data.map((elem) => {
+        return {
+          ...elem,
+          min: timeElapsed(elem.createdAt).min,
+          hour: timeElapsed(elem.createdAt).hour,
+        };
+      })
+    );
   }
   const togglecomment = () => {
     setshowhide((prev) => !prev);
   };
 
   const timeElapsed = (t) => {
-    const timenow = new Date();
     // to get the difference between current time and post time and show that
+
+    const createdAt = new Date(t);
+    const currentTime = new Date();
+
+    // Calculate the time elapsed in milliseconds
+    const timeElapsed = currentTime - createdAt;
+
+    // Convert time elapsed to a human-readable format (e.g., hours, minutes, seconds)
+    const hours = Math.floor(timeElapsed / 3600000); // 1 hour = 3600000 milliseconds
+    const minutes = Math.floor((timeElapsed % 3600000) / 60000); // 1 minute = 60000 milliseconds
+    const seconds = Math.floor((timeElapsed % 60000) / 1000); // 1 second = 1000 milliseconds
+
+    return { hour: hours, min: minutes };
   };
   function playPauseVideo() {
     let videos = document.querySelectorAll("video");
@@ -128,7 +145,7 @@ function Welcome() {
       wholiked: localStorage.getItem("userid"),
     };
 
-    socket.emit("like", reqObj);
+    socket?.emit("like", reqObj);
   };
 
   console.log(recommend);
@@ -160,32 +177,13 @@ function Welcome() {
                     );
                   })}
                 </span>
-                <p>{elem.createdAt}</p>
+                <p>
+                  {elem.hour} hour and {elem.min} min ago
+                </p>
               </div>
             </>
           );
         })}
-        {/* 
-        <div className="posts">
-          <img src={bulboff} loading="lazy" />
-        </div>
-        <div className="posts">
-          <video controls loading="lazy" autoPlay="true" muted data-keepplaying>
-            <source src={reel}></source>
-          </video>
-        </div>
-        <div className="posts">
-          {" "}
-          <img src={bulbon} loading="lazy" />
-        </div>
-        <div className="posts">
-          <video controls loading="lazy" autoPlay="true" muted data-keepplaying>
-            <source src={reel}></source>
-          </video>
-        </div>
-        <div className="posts">1</div>
-        <div className="posts">1</div>
-        <div className="posts">1</div> */}
       </div>
       <div className="follow-recommend">
         {recommend?.map((elem) => {

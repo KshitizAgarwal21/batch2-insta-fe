@@ -15,7 +15,7 @@ export default function ChatWindow() {
   };
 
   const sendMsg = () => {
-    socket.emit("chat", {
+    socket?.emit("chat", {
       conversation_id: id,
       author_id: self,
       recipient_id: recipient,
@@ -61,7 +61,7 @@ export default function ChatWindow() {
     getConversation();
   }, [id]);
   useEffect(() => {
-    socket.on("newchat", (msg) => {
+    socket?.on("newchat", (msg) => {
       console.log(msg);
       setConversation((prev) => [...prev, msg]);
     });
